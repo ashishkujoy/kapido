@@ -1,7 +1,14 @@
 package org.kapido.domain.model
 
+import org.kapido.domain.error.DriverNotOnTrip
+import org.kapido.domain.error.DriverAlreadyOnTrip
+
 class Driver(val id: String, private var position: Position) {
     private var isOnTrip: Boolean = false
+
+    fun isOnTrip(): Boolean {
+        return this.isOnTrip
+    }
 
     fun isNearBy(position: Position, distance: Double): Boolean {
         return this.distanceFrom(position) <= distance
@@ -12,10 +19,16 @@ class Driver(val id: String, private var position: Position) {
     }
 
     fun startRide() {
+        if (this.isOnTrip) {
+            throw DriverAlreadyOnTrip(this.id)
+        }
         this.isOnTrip = true
     }
 
     fun stopRide() {
+        if (!this.isOnTrip) {
+            throw DriverNotOnTrip(this.id)
+        }
         this.isOnTrip = false
     }
 

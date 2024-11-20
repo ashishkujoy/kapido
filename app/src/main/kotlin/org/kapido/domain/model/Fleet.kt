@@ -1,9 +1,15 @@
 package org.kapido.domain.model
 
+import org.kapido.domain.error.DriverNotFound
+import org.kapido.domain.error.DuplicateDriverException
+
 class Fleet {
     private val drivers: MutableMap<String, Driver> = mutableMapOf()
 
     fun addDriver(id: String, position: Position) {
+        if (this.drivers.containsKey(id)) {
+            throw DuplicateDriverException(id)
+        }
         this.drivers[id] = Driver(id, position)
     }
 
@@ -11,7 +17,7 @@ class Fleet {
         val drivers =
             this.drivers
                 .values
-                .filter { driver -> driver.isNearBy(rider.position(), 5.0) }
+                .filter { driver -> !driver.isOnTrip() && driver.isNearBy(rider.position(), 5.0) }
                 .map { driver -> driver.id to driver.distanceFrom(rider.position()) }
                 .sortedBy { it.second }
                 .map { it.first }
@@ -20,10 +26,12 @@ class Fleet {
     }
 
     fun startRide(driverId: String) {
-        this.drivers[driverId]!!.startRide()
+        val driver = this.drivers[driverId] ?: throw DriverNotFound(driverId)
+        driver.startRide()
     }
 
     fun stopRide(driverId: String) {
-        this.drivers[driverId]!!.stopRide()
+        val driver = this.drivers[driverId] ?: throw DriverNotFound(driverId)
+        driver.stopRide()
     }
 }
