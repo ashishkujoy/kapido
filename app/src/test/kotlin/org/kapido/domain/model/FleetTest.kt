@@ -4,36 +4,36 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class FleetTest {
-  @Test
-  fun findSingleDriverInNearByLocation() {
-    val fleet = Fleet()
-    fleet.addDriver(Driver("012", Position(2, 2)))
+    @Test
+    fun findSingleDriverInNearByLocation() {
+        val fleet = Fleet()
+        fleet.addDriver("012", Position(2, 2))
 
-    val driverIds = fleet.findDrivers(Position(1, 1))
-    assertEquals(driverIds, setOf("012"))
-  }
+        val match = fleet.match(Rider("R1", Position(1, 1)))
+        assertEquals(listOf("012"), match)
+    }
 
-  @Test
-  fun findMultipleDriversInNearByLocation() {
-    val fleet = Fleet()
-    fleet.addDriver(Driver("012", Position(2, 2)))
-    fleet.addDriver(Driver("02", Position(15, 15)))
-    fleet.addDriver(Driver("010", Position(5, 4)))
+    @Test
+    fun findMultipleDriversInNearByLocation() {
+        val fleet = Fleet()
+        fleet.addDriver("012", Position(2, 2))
+        fleet.addDriver("02", Position(15, 15))
+        fleet.addDriver("010", Position(5, 4))
 
-    val driverIds = fleet.findDrivers(Position(1, 1))
+        val driverIds = fleet.match(Rider("R1", Position(1, 1)))
 
-    assertEquals(setOf("012", "010"), driverIds)
-  }
+        assertEquals(listOf("012", "010"), driverIds)
+    }
 
-  @Test
-  fun findNoDriversInNearByLocation() {
-    val fleet = Fleet()
-    fleet.addDriver(Driver("012", Position(2, 2)))
-    fleet.addDriver(Driver("02", Position(15, 15)))
-    fleet.addDriver(Driver("010", Position(5, 4)))
+    @Test
+    fun findNoDriversInNearByLocation() {
+        val fleet = Fleet()
+        fleet.addDriver("012", Position(2, 2))
+        fleet.addDriver("02", Position(15, 15))
+        fleet.addDriver("010", Position(5, 4))
 
-    val driverIds = fleet.findDrivers(Position(25, 24))
+        val driverIds = fleet.match(Rider("R1", Position(25, 24)))
 
-    assertEquals(setOf(), driverIds)
-  }
+        assertEquals(listOf(), driverIds)
+    }
 }
