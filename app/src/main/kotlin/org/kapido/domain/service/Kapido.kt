@@ -38,7 +38,7 @@ class Kapido(private val fareCalculator: FareCalculator) {
 
         this.rides.start(id, driverId, riderId, rider.position())
         this.fleet.startRide(driverId)
-        this.riders.startRide(riderId, id)
+        this.riders.startRide(riderId)
     }
 
     fun stopRide(rideId: String, destination: Position, time: Int) {

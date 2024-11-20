@@ -1,14 +1,21 @@
 package org.kapido.domain.model
 
+import org.kapido.domain.error.DuplicateRiderException
+import org.kapido.domain.error.RiderAlreadyOnATrip
+import org.kapido.domain.error.RiderNotFoundException
+
 data class Rider(val id: String, private var position: Position) {
-    private var rideId: String? = null
+    private var isOnRide = false
 
     fun position(): Position {
         return this.position
     }
 
-    fun startRide(rideId: String) {
-        this.rideId
+    fun startRide() {
+        if (this.isOnRide) {
+            throw RiderAlreadyOnATrip(id)
+        }
+        this.isOnRide = true
     }
 }
 
@@ -16,14 +23,18 @@ class Riders {
     private val riders: MutableMap<String, Rider> = mutableMapOf()
 
     fun addRider(id: String, position: Position) {
+        if (this.riders.containsKey(id)) {
+            throw DuplicateRiderException(id)
+        }
         this.riders[id] = Rider(id, position)
     }
 
-    fun findById(id: String): Rider? {
-        return this.riders[id]
+    fun findById(id: String): Rider {
+        return this.riders[id] ?: throw RiderNotFoundException(id)
     }
 
-    fun startRide(riderId: String, id: String) {
-        riders[riderId]?.startRide(riderId)
+    fun startRide(riderId: String) {
+        val rider = riders[riderId] ?: throw RiderNotFoundException(riderId)
+        rider.startRide()
     }
 }
