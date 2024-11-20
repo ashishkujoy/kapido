@@ -2,8 +2,17 @@ package org.kapido.domain.model
 
 class Driver(val id: String, private var position: Position) {
   private var isOnTrip: Boolean = false
+
   fun isCloseTo(position: Position, distance: Double): Boolean {
-    return this.position - position <= distance
+    return this.position.distanceFrom(position) <= distance
+  }
+
+  fun isNearBy(position: Position, distance: Double): Boolean {
+    return this.distanceFrom(position) <= distance
+  }
+
+  fun distanceFrom(position: Position): Double {
+    return this.position.distanceFrom(position)
   }
 
   override fun equals(other: Any?): Boolean {
