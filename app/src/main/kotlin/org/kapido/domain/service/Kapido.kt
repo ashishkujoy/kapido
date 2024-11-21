@@ -21,7 +21,7 @@ class Kapido(private val fareCalculator: FareCalculator) {
     }
 
     fun match(riderId: String): List<String> {
-        val rider = this.riders.findById(riderId)!!
+        val rider = this.riders.findById(riderId)
         val drivers = this.fleet.match(rider)
         this.matchs.createMatch(rider.id, drivers)
 
@@ -34,7 +34,7 @@ class Kapido(private val fareCalculator: FareCalculator) {
         driverPreference: Int,
     ) {
         val driverId = this.matchs.getDriverId(riderId, driverPreference)!!
-        val rider = this.riders.findById(riderId)!!
+        val rider = this.riders.findById(riderId)
 
         this.rides.start(id, driverId, riderId, rider.position())
         this.fleet.startRide(driverId)
@@ -47,7 +47,7 @@ class Kapido(private val fareCalculator: FareCalculator) {
     }
 
     fun bill(rideId: String): Double {
-        return this.fareCalculator.calculate(this.rides.findById(rideId)!!)
+        return this.fareCalculator.calculate(this.rides.findById(rideId))
     }
 }
 

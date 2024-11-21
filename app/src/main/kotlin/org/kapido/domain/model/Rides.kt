@@ -1,5 +1,9 @@
 package org.kapido.domain.model
 
+import org.kapido.domain.error.DuplicateRideException
+import org.kapido.domain.error.RideNotFoundException
+import org.kapido.domain.error.RiderNotFoundException
+
 enum class RideStatus {
     IN_PROGRESS,
     COMPLETED,
@@ -27,6 +31,9 @@ class Rides {
     private val rides: MutableMap<String, Ride> = mutableMapOf()
 
     fun start(id: String, driverId: String, riderId: String, pickup: Position) {
+        if (this.rides.containsKey(id)) {
+            throw DuplicateRideException(id)
+        }
         val ride = Ride(id, driverId, riderId, pickup, RideStatus.IN_PROGRESS)
 
         this.rides[ride.id] = ride
@@ -43,7 +50,9 @@ class Rides {
         return completedRide
     }
 
-    fun findById(rideId: String): Ride? {
-        return this.rides[rideId]?.copy()
+    fun findById(rideId: String): Ride {
+        val rider = this.rides[rideId] ?: throw RideNotFoundException(rideId)
+
+        return rider.copy()
     }
 }
