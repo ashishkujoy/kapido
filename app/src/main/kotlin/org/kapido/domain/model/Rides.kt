@@ -3,7 +3,6 @@ package org.kapido.domain.model
 import org.kapido.domain.error.DuplicateRideException
 import org.kapido.domain.error.RideAlreadyCompleted
 import org.kapido.domain.error.RideNotFoundException
-import org.kapido.domain.error.RiderNotFoundException
 
 enum class RideStatus {
     IN_PROGRESS,

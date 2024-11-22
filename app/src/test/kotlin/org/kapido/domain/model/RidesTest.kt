@@ -1,6 +1,7 @@
 package org.kapido.domain.model
 
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.assertThrows
 import org.kapido.domain.error.DuplicateRideException
 import org.kapido.domain.error.RideAlreadyCompleted

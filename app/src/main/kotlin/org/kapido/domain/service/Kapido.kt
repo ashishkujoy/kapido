@@ -1,11 +1,7 @@
 package org.kapido.domain.service
 
 import org.kapido.domain.error.RideNotCompletedException
-import org.kapido.domain.model.Fleet
-import org.kapido.domain.model.Matchs
-import org.kapido.domain.model.Position
-import org.kapido.domain.model.Riders
-import org.kapido.domain.model.Rides
+import org.kapido.domain.model.*
 
 data class Bill(val rideId: String, val driverId: String, val fare: Double)
 

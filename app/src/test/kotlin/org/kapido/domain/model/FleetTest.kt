@@ -1,9 +1,9 @@
 package org.kapido.domain.model
 
 import org.junit.jupiter.api.assertThrows
-import org.kapido.domain.error.DriverNotOnTrip
 import org.kapido.domain.error.DriverAlreadyOnTrip
 import org.kapido.domain.error.DriverNotFound
+import org.kapido.domain.error.DriverNotOnTrip
 import org.kapido.domain.error.DuplicateDriverException
 import kotlin.test.Test
 import kotlin.test.assertEquals

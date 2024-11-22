@@ -1,7 +1,7 @@
 package org.kapido.domain.model
 
-import org.kapido.domain.error.DriverNotOnTrip
 import org.kapido.domain.error.DriverAlreadyOnTrip
+import org.kapido.domain.error.DriverNotOnTrip
 
 class Driver(val id: String, private var position: Position) {
     private var isOnTrip: Boolean = false
@@ -38,9 +38,7 @@ class Driver(val id: String, private var position: Position) {
 
         other as Driver
 
-        if (id != other.id) return false
-
-        return true
+        return id == other.id
     }
 
     override fun hashCode(): Int {
