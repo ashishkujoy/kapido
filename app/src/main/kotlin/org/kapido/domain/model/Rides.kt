@@ -25,6 +25,10 @@ data class Ride(
     fun distanceCovered(): Double {
         return this.pickup.distanceFrom(this.dropOff!!)
     }
+
+    fun isCompleted(): Boolean {
+        return this.status == RideStatus.COMPLETED
+    }
 }
 
 class Rides {

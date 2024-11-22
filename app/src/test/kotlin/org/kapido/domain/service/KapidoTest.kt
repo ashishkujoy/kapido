@@ -28,11 +28,11 @@ class KapidoTest {
         kapido.addDriver("D3", Position(2, 2))
 
         kapido.addRider("R1", Position(0, 0))
-        val drivers = kapido.match("R1")
+        kapido.match("R1")
         kapido.startRide("RIDE-001", "R1", 2)
         kapido.stopRide("RIDE-001", Position(4, 5), 32)
         val fare = kapido.bill("RIDE-001")
 
-        assertEquals(186.72, fare)
+        assertEquals(Bill("RIDE-001", "D3", 186.72), fare)
     }
 }

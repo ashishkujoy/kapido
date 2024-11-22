@@ -1,10 +1,13 @@
 package org.kapido.domain.service
 
+import org.kapido.domain.error.RideNotCompletedException
 import org.kapido.domain.model.Fleet
 import org.kapido.domain.model.Matchs
 import org.kapido.domain.model.Position
 import org.kapido.domain.model.Riders
 import org.kapido.domain.model.Rides
+
+data class Bill(val rideId: String, val driverId: String, val fare: Double)
 
 class Kapido(private val fareCalculator: FareCalculator) {
     private val fleet: Fleet = Fleet()
@@ -46,8 +49,14 @@ class Kapido(private val fareCalculator: FareCalculator) {
         this.fleet.stopRide(ride.driverId)
     }
 
-    fun bill(rideId: String): Double {
-        return this.fareCalculator.calculate(this.rides.findById(rideId))
+    fun bill(rideId: String): Bill {
+        val ride = this.rides.findById(rideId)
+        if (!ride.isCompleted()) {
+            throw RideNotCompletedException(rideId)
+        }
+        val fare = this.fareCalculator.calculate(ride)
+
+        return Bill(rideId, ride.driverId, fare)
     }
 }
 
