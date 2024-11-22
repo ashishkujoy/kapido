@@ -1,13 +1,14 @@
 package org.kapido.domain.model
 
-data class Position(val x: Int, val y: Int) {
-  fun distanceFrom(position: Position): Double {
-    // return Math.abs(this - position)
-    // return 0.0
+import kotlin.math.pow
+import kotlin.math.sqrt
 
-    val dx = Math.pow((x - position.x).toDouble(), 2.0)
-    val dy = Math.pow((y - position.y).toDouble(), 2.0)
-    val distance = Math.round(Math.sqrt(dx + dy) * 100) / 100.00
-    return distance
-  }
+data class Position(val x: Int, val y: Int) {
+    fun distanceFrom(position: Position): Double {
+        val dx = (x - position.x).toDouble().pow(2.0)
+        val dy = (y - position.y).toDouble().pow(2.0)
+        val distance = Math.round(sqrt(dx + dy) * 100) / 100.00
+    
+        return distance
+    }
 }

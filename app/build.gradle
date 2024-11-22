@@ -12,7 +12,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
 
-    id 'jacoco'
+    id 'org.jetbrains.kotlinx.kover' version '0.9.0-RC'
 }
 
 repositories {
@@ -53,37 +53,5 @@ tasks.named('test') {
     useJUnitPlatform()
     testLogging {
         events "PASSED", "SKIPPED", "FAILED", "STANDARD_ERROR"
-    }
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-}
-
-tasks.jacocoTestReport {
-    dependsOn(tasks.test) // tests are required to run before generating the report
-    reports {
-        xml.required = false
-        csv.required = false
-        html.outputLocation = layout.buildDirectory.dir("jacocoHtml")
-    }
-}
-
-jacocoTestCoverageVerification {
-    violationRules {
-        rule {
-            limit {
-                minimum = 0.5
-            }
-        }
-
-        rule {
-            enabled = false
-            element = 'CLASS'
-            includes = ['org.gradle.*']
-
-            limit {
-                counter = 'LINE'
-                value = 'TOTALCOUNT'
-                maximum = 0.3
-            }
-        }
     }
 }

@@ -1,6 +1,7 @@
 package org.kapido.domain.model
 
 import org.kapido.domain.error.DuplicateRideException
+import org.kapido.domain.error.RideAlreadyCompleted
 import org.kapido.domain.error.RideNotFoundException
 import org.kapido.domain.error.RiderNotFoundException
 
@@ -44,9 +45,9 @@ class Rides {
     }
 
     fun stop(id: String, destination: Position, time: Int): Ride {
-        val ride = this.rides[id] ?: throw Error("Ride $id Not Found")
+        val ride = this.rides[id] ?: throw RideNotFoundException(id)
         if (ride.status == RideStatus.COMPLETED) {
-            throw Error("Ride $ride Already Completed")
+            throw RideAlreadyCompleted(id)
         }
         val completedRide = ride.end(destination, time)
         this.rides[id] = completedRide

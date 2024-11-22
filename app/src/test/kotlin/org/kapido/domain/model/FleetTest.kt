@@ -104,4 +104,18 @@ class FleetTest {
         }
         assertEquals("D02", exception.id)
     }
+
+    @Test
+    fun shouldThrowErrorForStopTripForAUnknownDriver() {
+        val fleet = Fleet()
+
+        fleet.addDriver("D01", Position(1, 2))
+        fleet.addDriver("D02", Position(10, 12))
+        fleet.startRide("D01")
+
+        val exception = assertThrows<DriverNotFound> {
+            fleet.stopRide("D03")
+        }
+        assertEquals("D03", exception.id)
+    }
 }

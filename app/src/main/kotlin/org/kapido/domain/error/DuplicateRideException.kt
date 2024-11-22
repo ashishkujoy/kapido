@@ -1,3 +1,3 @@
 package org.kapido.domain.error
 
-class DuplicateRideException(id: String) : Throwable()
+class DuplicateRideException(val id: String) : Throwable("Ride $id already exists in system")

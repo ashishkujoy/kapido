@@ -10,6 +10,7 @@ class Matchs {
   }
 
   fun getDriverId(riderId: String, driverPreference: Int): String? {
-    return this.matchs[riderId]?.drivers?.get(driverPreference - 1)
+    val match = this.matchs[riderId] ?: return null
+    return match.drivers.getOrNull(driverPreference - 1)
   }
 }
