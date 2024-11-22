@@ -77,7 +77,7 @@ data class Bill(val rideId: String) : Command() {
             val errorMessage = when (t) {
                 is RideNotCompletedException -> "RIDE_NOT_COMPLETED"
                 is RideNotFoundException -> "INVALID_RIDE"
-                else -> t.message!!
+                else -> TODO("NOT REACHABLE")
             }
             Failure(errorMessage)
         }
