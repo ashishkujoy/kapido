@@ -25,10 +25,11 @@ class Driver(val id: String, private var position: Position) {
         this.isOnTrip = true
     }
 
-    fun stopRide() {
+    fun stopRide(destination: Position) {
         if (!this.isOnTrip) {
             throw DriverNotOnTrip(this.id)
         }
+        this.position = destination
         this.isOnTrip = false
     }
 

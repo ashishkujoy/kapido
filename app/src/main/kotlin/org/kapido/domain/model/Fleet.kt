@@ -13,14 +13,17 @@ class Fleet {
         this.drivers[id] = Driver(id, position)
     }
 
-    fun match(rider: Rider): List<String> {
+    fun match(rider: Rider, limit: Int): List<String> {
         val drivers =
             this.drivers
                 .values
+                .asSequence()
                 .filter { driver -> !driver.isOnTrip() && driver.isNearBy(rider.position(), 5.0) }
                 .map { driver -> driver.id to driver.distanceFrom(rider.position()) }
                 .sortedBy { it.second }
                 .map { it.first }
+                .take(limit)
+                .toList()
 
         return drivers
     }
@@ -30,8 +33,8 @@ class Fleet {
         driver.startRide()
     }
 
-    fun stopRide(driverId: String) {
+    fun stopRide(driverId: String, destination: Position) {
         val driver = this.drivers[driverId] ?: throw DriverNotFound(driverId)
-        driver.stopRide()
+        driver.stopRide(destination)
     }
 }

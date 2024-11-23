@@ -5,6 +5,7 @@ import org.junit.jupiter.api.assertThrows
 import org.kapido.domain.error.DuplicateRiderException
 import org.kapido.domain.error.RiderAlreadyOnATrip
 import org.kapido.domain.error.RiderNotFoundException
+import org.kapido.domain.error.RiderNotOnTrip
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -85,5 +86,40 @@ class RidersTest {
         assertEquals(exception.id, "R001")
     }
 
+    @Test
+    fun shouldStopRide() {
+        val riders = Riders()
+        riders.addRider("R-01", Position(1, 2))
+        riders.startRide("R-01")
+        riders.stopRide("R-01", Position(3, 2))
 
+        assertEquals(
+            Rider("R-01", Position(3, 2)),
+            riders.findById("R-01")
+        )
+    }
+
+    @Test
+    fun shouldThrowErrorForStoppingUnknownRider() {
+        val riders = Riders()
+        riders.addRider("R-01", Position(1, 2))
+
+        val exception = assertThrows<RiderNotFoundException> {
+            riders.stopRide("R-02", Position(1, 2))
+        }
+
+        assertEquals(exception, RiderNotFoundException("R-02"))
+    }
+
+    @Test
+    fun shouldThrowErrorForStoppingARiderNotOnARide() {
+        val riders = Riders()
+        riders.addRider("R-01", Position(1, 2))
+
+        val exception = assertThrows<RiderNotOnTrip> {
+            riders.stopRide("R-01", Position(11, 12))
+        }
+
+        assertEquals(exception, RiderNotOnTrip("R-01"))
+    }
 }

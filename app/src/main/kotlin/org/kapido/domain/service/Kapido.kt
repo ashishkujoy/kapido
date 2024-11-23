@@ -19,9 +19,9 @@ class Kapido(private val fareCalculator: FareCalculator) {
         this.riders.addRider(id, position)
     }
 
-    fun match(riderId: String): List<String> {
+    fun match(riderId: String, limit: Int = 5): List<String> {
         val rider = this.riders.findById(riderId)
-        val drivers = this.fleet.match(rider)
+        val drivers = this.fleet.match(rider, limit)
         this.matchs.createMatch(rider.id, drivers)
 
         return drivers
@@ -42,7 +42,8 @@ class Kapido(private val fareCalculator: FareCalculator) {
 
     fun stopRide(rideId: String, destination: Position, time: Int) {
         val ride = this.rides.stop(rideId, destination, time)
-        this.fleet.stopRide(ride.driverId)
+        this.fleet.stopRide(ride.driverId, destination)
+        this.riders.stopRide(ride.riderId, destination)
     }
 
     fun bill(rideId: String): Bill {

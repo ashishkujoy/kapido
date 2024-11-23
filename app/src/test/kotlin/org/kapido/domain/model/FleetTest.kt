@@ -14,7 +14,7 @@ class FleetTest {
         val fleet = Fleet()
         fleet.addDriver("012", Position(2, 2))
 
-        val match = fleet.match(Rider("R1", Position(1, 1)))
+        val match = fleet.match(Rider("R1", Position(1, 1)), 1)
         assertEquals(listOf("012"), match)
     }
 
@@ -24,10 +24,11 @@ class FleetTest {
         fleet.addDriver("012", Position(2, 2))
         fleet.addDriver("02", Position(15, 15))
         fleet.addDriver("010", Position(5, 4))
+        fleet.addDriver("011", Position(3, 2))
 
-        val driverIds = fleet.match(Rider("R1", Position(1, 1)))
+        val driverIds = fleet.match(Rider("R1", Position(1, 1)), 2)
 
-        assertEquals(listOf("012", "010"), driverIds)
+        assertEquals(listOf("012", "011"), driverIds)
     }
 
     @Test
@@ -37,7 +38,7 @@ class FleetTest {
         fleet.addDriver("02", Position(15, 15))
         fleet.addDriver("010", Position(5, 4))
         fleet.startRide("010")
-        val driverIds = fleet.match(Rider("R1", Position(1, 1)))
+        val driverIds = fleet.match(Rider("R1", Position(1, 1)), 5)
 
         assertEquals(listOf("012"), driverIds)
     }
@@ -49,7 +50,7 @@ class FleetTest {
         fleet.addDriver("02", Position(15, 15))
         fleet.addDriver("010", Position(5, 4))
 
-        val driverIds = fleet.match(Rider("R1", Position(25, 24)))
+        val driverIds = fleet.match(Rider("R1", Position(25, 24)), 5)
 
         assertEquals(listOf(), driverIds)
     }
@@ -100,7 +101,7 @@ class FleetTest {
         fleet.startRide("D01")
 
         val exception = assertThrows<DriverNotOnTrip> {
-            fleet.stopRide("D02")
+            fleet.stopRide("D02", Position(4, 5))
         }
         assertEquals("D02", exception.id)
     }
@@ -114,7 +115,7 @@ class FleetTest {
         fleet.startRide("D01")
 
         val exception = assertThrows<DriverNotFound> {
-            fleet.stopRide("D03")
+            fleet.stopRide("D03", Position(3, 4))
         }
         assertEquals("D03", exception.id)
     }

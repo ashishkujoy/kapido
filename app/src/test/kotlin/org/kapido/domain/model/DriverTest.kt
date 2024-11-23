@@ -40,4 +40,22 @@ class DriverTest {
 
         assertEquals(driver.hashCode(), "a1".hashCode())
     }
+
+    @Test
+    fun testStopRide() {
+        val driver = Driver("a1", Position(12, 23))
+
+        assert(!driver.isOnTrip())
+        driver.startRide()
+        assert(driver.isOnTrip())
+    }
+
+    @Test
+    fun testStartRide() {
+        val driver = Driver("a1", Position(12, 23))
+
+        driver.startRide()
+        driver.stopRide(Position(50, 50))
+        assert(!driver.isOnTrip())
+    }
 }
